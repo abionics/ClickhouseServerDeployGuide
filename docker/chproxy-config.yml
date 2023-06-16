@@ -1,0 +1,21 @@
+server:
+  https:
+    listen_addr: ":9090"
+#    allowed_networks: ["127.0.0.0/32", "0.0.0.0/0"]
+#    autocert:
+#      cache_dir: "/opt/certificate"
+    cert_file: "/opt/certificate/certificate.crt"
+    key_file: "/opt/certificate/private.key"
+
+users:
+  - name: "chproxy-user"
+    password: "chproxy-password"
+    to_cluster: "default"
+    to_user: "ch-user"
+
+clusters:
+  - name: "default"
+    nodes: ["clickhouse:8123"]
+    users:
+      - name: "ch-user"
+        password: "ch-password"
