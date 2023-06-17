@@ -4,8 +4,8 @@ server:
 #    allowed_networks: ["127.0.0.0/32", "0.0.0.0/0"]
 #    autocert:
 #      cache_dir: "/opt/certificate"
-    cert_file: "/opt/certificate/certificate.crt"
-    key_file: "/opt/certificate/private.key"
+    cert_file: "/opt/certificate/chproxy.crt"
+    key_file: "/opt/certificate/chproxy.key"
 
 users:
   - name: "chproxy-user"

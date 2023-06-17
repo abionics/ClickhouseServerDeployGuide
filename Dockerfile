@@ -1,4 +1,4 @@
-FROM clickhouse/clickhouse-server:23.2.5.46-alpine
+FROM clickhouse/clickhouse-server:23.4.2.11-alpine
 
 RUN apk add openssl
 # Certificate for 3 years (1095 days)

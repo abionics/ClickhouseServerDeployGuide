@@ -4,12 +4,12 @@
 
 * [🔐 Certificate Notes](#-certificate-notes)
 * [📝 Env](#-env)
-* [🚀 Native auto-certificate [✍️ self-signed]](#-native-auto-certificate--self-signed)
+* [👌 Default [✍️ self-signed]](#-default)
+* [🚀 Auto-certificate [✍️ self-signed]](#-auto-certificate--self-signed)
     * [Quick start](#quick-start)
     * [Volumes](#volumes)
     * [Ports](#ports)
     * [Files](#files)
-* [😎 Native normal certificate](#-native-normal-certificate)
 * [🏭 Chproxy](#-chproxy)
     * [Quick start](#quick-start-1)
     * [Volumes](#volumes-1)
@@ -36,12 +36,14 @@ Please note that for local development on localhost, you must follow the procedu
 * `CLICKHOUSE_DB` - database for clickhouse
 * `CLICKHOUSE_USER` - user for clickhouse
 * `CLICKHOUSE_PASSWORD` - password for clickhouse
+* `GF_SECURITY_ADMIN_USER` - user for grafana
+* `GF_SECURITY_ADMIN_PASSWORD` - password for grafana
 
 See [.env](.env) file for demo
 
 
 
-## 🚀 Native auto-certificate [✍️ self-signed]
+## 👌 Default
 
 ### Quick start
 
@@ -50,7 +52,7 @@ Start:
 docker-compose up
 ```
 
-Usage:
+Connection:
 ```bash
 echo "SELECT 1" | curl 'https://ch-user:ch-password@localhost:8443' --data-binary @-
 
@@ -73,34 +75,106 @@ DataGrip:
 * Advance -> ssl: `true`
 * Advance -> sslmode: `STRICT` or `NONE` for **[✍️ self-signed]**
 
+**Grafana:** [https://localhost:3000](https://localhost:3000)
+
+
 ### Volumes
 
 * [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
 * [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
-* [clickhouse-config-ssl.xml](docker/clickhouse-config.xml) - config for clickhouse, modified for SSL
+* [clickhouse-config-ssl.xml](docker/clickhouse-config-ssl.xml) - config for clickhouse, modified for SSL
+* [grafana-data](docker/grafana-data) - persistent data for grafana
+* [certificate/clickhouse](docker/certificate/clickhouse) - SSL certificate for clickhouse
+* [certificate/grafana](docker/certificate/grafana) - SSL certificate for grafana
 
 
 ### Ports
 
-* `8443` - https port
+* `8443` - https port **(encrypted)**
 * `9440` - native port **(encrypted)**
+* `3000` - grafana port **(encrypted)**
 
 
 ### Files
 
 * .env
 * Dockerfile
-* docker-compose.yml
+* docker-compose-auto.yml
 * docker/:
     * clickhouse-users.xml
-    * clickhouse-config-ssl.xml
+    * clickhouse-config-ssl.xml 
+    * certificate/:
+        * clickhouse/:
+            * clickhouse.crt
+            * clickhouse.key
+        * grafana/:
+            * grafana.crt
+            * grafana.key
 
 
 
-## 😎 Native normal certificate
+## 🚀 Auto-certificate [✍️ self-signed]
 
-[//]: # (todo)
-todo
+### Quick start
+
+Start:
+```bash
+docker-compose -f docker-compose-auto.yml up
+```
+
+Connection:
+```bash
+echo "SELECT 1" | curl 'https://ch-user:ch-password@localhost:8443' --data-binary @-
+
+# [✍️ self-signed]
+echo "SELECT 1" | curl 'https://ch-user:ch-password@localhost:8443' --data-binary @- --insecure
+```
+
+```bash
+./clickhouse client --host localhost --port 9440 --user ch-user --password ch-password --secure
+
+# [✍️ self-signed]
+./clickhouse client --host localhost --port 9440 --user ch-user --password ch-password --secure --accept-invalid-certificate
+```
+
+DataGrip:
+* Port: `8443`
+* User: `ch-user`
+* Password: `ch-password`
+* Database: `default`
+* Advance -> ssl: `true`
+* Advance -> sslmode: `STRICT` or `NONE` for **[✍️ self-signed]**
+
+**Grafana:** [https://localhost:3000](https://localhost:3000)
+
+
+### Volumes
+
+* [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
+* [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
+* [clickhouse-config-ssl.xml](docker/clickhouse-config-ssl.xml) - config for clickhouse, modified for SSL
+* [grafana-data](docker/grafana-data) - persistent data for grafana
+* [certificate/grafana](docker/certificate/grafana) - SSL certificate for grafana
+
+
+### Ports
+
+* `8443` - https port **(encrypted)**
+* `9440` - native port **(encrypted)**
+* `3000` - grafana port **(encrypted)**
+
+
+### Files
+
+* .env
+* Dockerfile
+* docker-compose-auto.yml
+* docker/:
+    * clickhouse-users.xml
+    * clickhouse-config-ssl.xml 
+    * certificate/grafana/:
+        * grafana.crt
+        * grafana.key
 
 
 
@@ -111,12 +185,17 @@ todo
 
 ### Quick start
 
+Generate certificate (is case of `[✍️ self-signed]`):
+```bash
+openssl req -subj "/CN=localhost" -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout clickhouse.key -out clickhouse.crt
+```
+
 Start:
 ```bash
 docker-compose -f docker-compose-chproxy.yml up
 ```
 
-Usage:
+Connection:
 ```bash
 echo "SELECT 1" | curl 'https://chproxy-user:chproxy-password@localhost:9090' --data-binary @-
 
@@ -132,17 +211,23 @@ DataGrip:
 * Advance -> ssl: as in [Native](#-native-auto-certificate--self-signed)
 * Advance -> sslmode: as in [Native](#-native-auto-certificate--self-signed)
 
+**Grafana:** [https://localhost:3000](https://localhost:3000)
+
+
 ### Volumes
 
-* [chproxy-config.yml](docker/chproxy-config.yml) - for chproxy config
-* [chproxy-certificate](docker/chproxy-certificate) - for chproxy SSL certificate
-* [clickhouse-data](docker/clickhouse-data) - as in [Native](#-native-auto-certificate--self-signed)
-* [clickhouse-users.xml](docker/clickhouse-users.xml) - as in [Native](#-native-auto-certificate--self-signed)
+* [chproxy-config.yml](docker/chproxy-config.yml) - chproxy config
+* [chproxy-certificate](docker/certificate/chproxy) - SSL certificate for chproxy
+* [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
+* [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
 * [clickhouse-config.xml](docker/clickhouse-config.xml) - config for clickhouse, unmodified
+* [grafana-data](docker/grafana-data) - persistent data for grafana
+* [certificate/grafana](docker/certificate/grafana) - SSL certificate for grafana
 
 ### Ports
 
 * `9090` - chproxy port **(encrypted)**
+* `3000` - grafana port **(encrypted)**
 
 
 ### Config
@@ -163,6 +248,9 @@ DataGrip:
         * chproxy.key
     * clickhouse-users.xml
     * clickhouse-config.xml
+    * certificate/grafana/:
+        * grafana.crt
+        * grafana.key
 
 
 
@@ -178,7 +266,7 @@ Start:
 docker-compose -f docker-compose-insecure.yml up
 ```
 
-Usage:
+Connection:
 ```bash
 echo "SELECT 1" | curl 'http://ch-user:ch-password@localhost:8123' --data-binary @-
 ```
@@ -194,17 +282,22 @@ DataGrip:
 * Database: `default`
 * Advance -> ssl: `false`
 
+**Grafana:** [http://localhost:3000](http://localhost:3000)
+
+
 ### Volumes
 
 * [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
 * [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
 * [clickhouse-config.xml](docker/clickhouse-config.xml) - config for clickhouse, unmodified
+* [grafana-data](docker/grafana-data) - persistent data for grafana
 
 
 ### Ports
 
-* `8123` - http port
+* `8123` - http port **(unencrypted)**
 * `9000` - native port **(unencrypted)**
+* `3000` - grafana port **(unencrypted)**
 
 
 ### Files

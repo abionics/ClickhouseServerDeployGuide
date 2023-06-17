@@ -3,11 +3,13 @@ version: "3.1"
 services:
 
   clickhouse:
-    image: clickhouse/clickhouse-server:23.4.2.11-alpine
+    build:
+      context: .
+      dockerfile: auto.Dockerfile
     restart: on-failure
     ports:
-      - "8123:8123"
-      - "9000:9000"
+      - "8443:8443"
+      - "9440:9440"
     environment:
       CLICKHOUSE_DB: ${CLICKHOUSE_DB}
       CLICKHOUSE_USER: ${CLICKHOUSE_USER}
@@ -16,7 +18,7 @@ services:
     volumes:
       - ./docker/clickhouse-data:/var/lib/clickhouse
       - ./docker/clickhouse-users.xml:/etc/clickhouse-server/users.xml:ro
-      - ./docker/clickhouse-config.xml:/etc/clickhouse-server/config.xml:ro
+      - ./docker/clickhouse-config-ssl.xml:/etc/clickhouse-server/config.xml:ro
     ulimits:
       nofile:
         soft: 262144
@@ -32,7 +34,11 @@ services:
       GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
       GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
       GF_INSTALL_PLUGINS: "grafana-clickhouse-datasource"
+      GF_SERVER_PROTOCOL: "https"
+      GF_SERVER_CERT_FILE: "/etc/certificate/grafana.crt"
+      GF_SERVER_CERT_KEY: "/etc/certificate/grafana.key"
     volumes:
       - ./docker/grafana-data:/var/lib/grafana
+      - ./docker/certificate/grafana:/etc/certificate:ro
     depends_on:
       - clickhouse
