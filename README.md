@@ -38,6 +38,10 @@ This guide provides information on both normal SSL certificates and self-signed 
 When referring to self-signed certificates, I will use the `[✍️ self-signed]` note in the text.
 Please note that for local development on localhost, you must follow the procedure for self-signed certificates.
 
+Generate `[✍️ self-signed]` certificate:
+```bash
+openssl req -subj "/CN=localhost" -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout <name>.key -out <name>.crt
+```
 
 
 ## 📝 Env
@@ -193,11 +197,6 @@ DataGrip:
 > In this scenario, you can only connect using the `https` protocol, not the `native` protocol
 
 ### Quick start
-
-Generate certificate (is case of `[✍️ self-signed]`):
-```bash
-openssl req -subj "/CN=localhost" -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout clickhouse.key -out clickhouse.crt
-```
 
 Start:
 ```bash
