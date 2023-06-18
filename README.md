@@ -6,6 +6,9 @@
 > **Warning**
 > Don't use certificates from this guide in production! They are real, but publicly available ❗
 
+This guide will help you quickly deploy a clickhouse server with SSL encryption and a grafana monitoring with SSL encryption.
+For grafana configuration, see [this official guide](https://clickhouse.com/blog/visualizing-data-with-grafana)
+
 ## Navigation
 
 * [🔐 Certificate Notes](#-certificate-notes)
