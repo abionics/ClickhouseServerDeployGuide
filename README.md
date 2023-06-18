@@ -80,10 +80,10 @@ DataGrip:
 
 ### Volumes
 
-* [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
+* **clickhouse-data** - persistent data for clickhouse
 * [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
 * [clickhouse-config-ssl.xml](docker/clickhouse-config-ssl.xml) - config for clickhouse, modified for SSL
-* [grafana-data](docker/grafana-data) - persistent data for grafana
+* **grafana-data** - persistent data for grafana
 * [certificate/clickhouse](docker/certificate/clickhouse) - SSL certificate for clickhouse
 * [certificate/grafana](docker/certificate/grafana) - SSL certificate for grafana
 
@@ -150,10 +150,10 @@ DataGrip:
 
 ### Volumes
 
-* [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
+* **clickhouse-data** - persistent data for clickhouse
 * [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
 * [clickhouse-config-ssl.xml](docker/clickhouse-config-ssl.xml) - config for clickhouse, modified for SSL
-* [grafana-data](docker/grafana-data) - persistent data for grafana
+* **grafana-data** - persistent data for grafana
 * [certificate/grafana](docker/certificate/grafana) - SSL certificate for grafana
 
 
@@ -207,9 +207,9 @@ DataGrip:
 * Port: `9090`
 * User: `chproxy-user`
 * Password: `chproxy-password`
-* Database: as in [Native](#-native-auto-certificate--self-signed)
-* Advance -> ssl: as in [Native](#-native-auto-certificate--self-signed)
-* Advance -> sslmode: as in [Native](#-native-auto-certificate--self-signed)
+* Database: `default`
+* Advance -> ssl: `true`
+* Advance -> sslmode: `STRICT` or `NONE` for **[✍️ self-signed]**
 
 **Grafana:** [https://localhost:3000](https://localhost:3000)
 
@@ -218,10 +218,10 @@ DataGrip:
 
 * [chproxy-config.yml](docker/chproxy-config.yml) - chproxy config
 * [chproxy-certificate](docker/certificate/chproxy) - SSL certificate for chproxy
-* [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
+* **clickhouse-data** - persistent data for clickhouse
 * [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
 * [clickhouse-config.xml](docker/clickhouse-config.xml) - config for clickhouse, unmodified
-* [grafana-data](docker/grafana-data) - persistent data for grafana
+* **grafana-data** - persistent data for grafana
 * [certificate/grafana](docker/certificate/grafana) - SSL certificate for grafana
 
 ### Ports
@@ -287,10 +287,10 @@ DataGrip:
 
 ### Volumes
 
-* [clickhouse-data](docker/clickhouse-data) - persistent data for clickhouse
+* **clickhouse-data** - persistent data for clickhouse
 * [clickhouse-users.xml](docker/clickhouse-users.xml) - users for clickhouse
 * [clickhouse-config.xml](docker/clickhouse-config.xml) - config for clickhouse, unmodified
-* [grafana-data](docker/grafana-data) - persistent data for grafana
+* **grafana-data** - persistent data for grafana
 
 
 ### Ports
