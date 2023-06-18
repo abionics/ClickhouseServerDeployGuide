@@ -1,5 +1,11 @@
 # Clickhouse Server Deploy Guide
 
+> **Note**
+> Don't forget to star this repo if you like it! ⭐
+
+> **Warning**
+> Don't use certificates from this guide in production! They are real, but publicly available ❗
+
 ## Navigation
 
 * [🔐 Certificate Notes](#-certificate-notes)
