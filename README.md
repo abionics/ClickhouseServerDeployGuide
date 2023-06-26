@@ -14,22 +14,26 @@ For grafana configuration, see [this official guide](https://clickhouse.com/blog
 * [🔐 Certificate Notes](#-certificate-notes)
 * [📝 Env](#-env)
 * [👌 Default [✍️ self-signed]](#-default)
-* [🚀 Auto-certificate [✍️ self-signed]](#-auto-certificate--self-signed)
     * [Quick start](#quick-start)
     * [Volumes](#volumes)
     * [Ports](#ports)
     * [Files](#files)
-* [🏭 Chproxy](#-chproxy)
+* [🚀 Auto-certificate [✍️ self-signed]](#-auto-certificate--self-signed)
     * [Quick start](#quick-start-1)
     * [Volumes](#volumes-1)
     * [Ports](#ports-1)
-    * [Config](#config)
     * [Files](#files-1)
-* [⚠️ Insecure (http)](#-insecure-http)
+* [🏭 Chproxy](#-chproxy)
     * [Quick start](#quick-start-2)
     * [Volumes](#volumes-2)
     * [Ports](#ports-2)
+    * [Config](#config)
     * [Files](#files-2)
+* [⚠️ Insecure (http)](#-insecure-http)
+    * [Quick start](#quick-start-3)
+    * [Volumes](#volumes-3)
+    * [Ports](#ports-3)
+    * [Files](#files-3)
 
 
 ## 🔐 Certificate Notes
@@ -40,7 +44,7 @@ Please note that for local development on localhost, you must follow the procedu
 
 Generate `[✍️ self-signed]` certificate:
 ```bash
-openssl req -subj "/CN=localhost" -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout <name>.key -out <name>.crt
+openssl req -subj "/CN=localhost" -new -newkey rsa:2048 -days 1095 -nodes -x509 -keyout <name>.key -out <name>.crt
 ```
 
 
@@ -111,8 +115,7 @@ DataGrip:
 ### Files
 
 * .env
-* Dockerfile
-* docker-compose-auto.yml
+* docker-compose.yml
 * docker/:
     * clickhouse-users.xml
     * clickhouse-config-ssl.xml 
@@ -180,7 +183,7 @@ DataGrip:
 ### Files
 
 * .env
-* Dockerfile
+* auto.Dockerfile
 * docker-compose-auto.yml
 * docker/:
     * clickhouse-users.xml
