@@ -9,9 +9,9 @@ services:
       - "8123:8123"
       - "9000:9000"
     environment:
-      CLICKHOUSE_DB: ${CLICKHOUSE_DB}
-      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
-      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB:-default}
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:?InvalidClickhouseUser}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:?InvalidClickhousePassword}
       CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
     volumes:
       - ./docker/clickhouse-data:/var/lib/clickhouse
@@ -29,8 +29,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
-      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER:?InvalidGrafanaUser}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD:?InvalidGrafanaPassword}
       GF_INSTALL_PLUGINS: "grafana-clickhouse-datasource"
     volumes:
       - ./docker/grafana-data:/var/lib/grafana
