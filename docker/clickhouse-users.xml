@@ -11,6 +11,11 @@
         <readonly>
             <readonly>1</readonly>
         </readonly>
+
+        <!-- Profile that allows read and queries change settings. -->
+        <monitoring>
+            <readonly>2</readonly>
+        </monitoring>
     </profiles>
 
     <!-- Users and ACL. -->
