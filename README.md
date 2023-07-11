@@ -13,7 +13,7 @@ For grafana configuration, see [this official guide](https://clickhouse.com/blog
 
 * [🔐 Certificate Notes](#-certificate-notes)
 * [📝 Env](#-env)
-* [👌 Default [✍️ self-signed]](#-default)
+* [👌 Default](#-default)
     * [Quick start](#quick-start)
     * [Volumes](#volumes)
     * [Ports](#ports)
