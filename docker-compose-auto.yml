@@ -16,7 +16,7 @@ services:
       CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:?InvalidClickhousePassword}
       CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
     volumes:
-      - ./docker/clickhouse-data:/var/lib/clickhouse
+      - ./clickhouse-data:/var/lib/clickhouse
       - ./docker/clickhouse-users.xml:/etc/clickhouse-server/users.xml:ro
       - ./docker/clickhouse-config-ssl.xml:/etc/clickhouse-server/config.xml:ro
     ulimits:
@@ -31,14 +31,15 @@ services:
     ports:
       - "3000:3000"
     environment:
-      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER:?InvalidGrafanaUser}
-      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD:?InvalidGrafanaPassword}
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:?InvalidGrafanaUser}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?InvalidGrafanaPassword}
       GF_INSTALL_PLUGINS: "grafana-clickhouse-datasource"
       GF_SERVER_PROTOCOL: "https"
       GF_SERVER_CERT_FILE: "/etc/certificate/grafana.crt"
       GF_SERVER_CERT_KEY: "/etc/certificate/grafana.key"
     volumes:
-      - ./docker/grafana-data:/var/lib/grafana
+      - ./grafana-data:/var/lib/grafana
       - ./docker/certificate/grafana:/etc/certificate:ro
+    user: ${GRAFANA_UID:-0}
     depends_on:
       - clickhouse
