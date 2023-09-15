@@ -47,14 +47,23 @@ Generate `[✍️ self-signed]` certificate:
 openssl req -subj "/CN=localhost" -new -newkey rsa:2048 -days 1095 -nodes -x509 -keyout <name>.key -out <name>.crt
 ```
 
+Change access rights to .key file (must be 644 or stricter):
+```bash
+chmod 644 <name>.key
+```
+
 
 ## 📝 Env
 
-* `CLICKHOUSE_DB` - database for clickhouse
+* `CLICKHOUSE_DB` - database for clickhouse (default: `default`)
 * `CLICKHOUSE_USER` - user for clickhouse
 * `CLICKHOUSE_PASSWORD` - password for clickhouse
-* `GF_SECURITY_ADMIN_USER` - user for grafana
-* `GF_SECURITY_ADMIN_PASSWORD` - password for grafana
+* `GRAFANA_USER` - user for grafana
+* `GRAFANA_PASSWORD` - password for grafana
+* `GRAFANA_UID` - user with permission to access and write to the volume folder,
+see [docs](https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/#use-bind-mounts)
+and [this issue](https://community.grafana.com/t/mkdir-cant-create-directory-var-lib-grafana-plugins-permission-denied/68342/33)
+(default: `0`)
 
 See [.env](.env) file for demo
 
@@ -318,3 +327,29 @@ DataGrip:
 * docker/:
     * clickhouse-users.xml
     * clickhouse-config.xml
+
+
+
+## Setup After Creation
+
+1) Create user for grafana:
+    ```sql
+    CREATE USER grafana IDENTIFIED BY '<password>' SETTINGS PROFILE 'monitoring';
+    GRANT SHOW TABLES, SELECT ON default.* TO grafana;  -- or any other database or specific tables
+    ```
+2) In grafana open `Connections -> Data sources -> Add data source -> ClickHouse` and setup it:
+    ```yaml
+    Server address: clickhouse
+    Server port: 9440
+    Protocol: Native
+    Secure Connection: true
+    Username: grafana
+    Password: <password>
+    Skip TLS Verify: <depends on certificate>
+    ```
+    Then go to `Dashboards` tab (in current datasource, see above) and import first 3 dashboards (name starts with "ClickHouse")
+3) It is highly recommended to create a new user for your project and grant him only the necessary rights (insert, create, etc.), for example:
+    ```sql
+    CREATE USER importer IDENTIFIED BY '<password>' SETTINGS async_insert = 1;
+    GRANT SHOW TABLES, SELECT, INSERT, CREATE TABLE ON default.* TO importer;
+    ```
