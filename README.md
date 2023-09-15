@@ -34,6 +34,7 @@ For grafana configuration, see [this official guide](https://clickhouse.com/blog
     * [Volumes](#volumes-3)
     * [Ports](#ports-3)
     * [Files](#files-3)
+* [🛠️ Setup After Creation](#setup-after-creation)
 
 
 ## 🔐 Certificate Notes
