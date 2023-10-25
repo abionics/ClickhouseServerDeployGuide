@@ -1,13 +1,15 @@
 # Clickhouse Server Deploy Guide
 
-> **Note**
+> [!TIP]
 > Don't forget to star this repo if you like it! ⭐
 
-> **Warning**
+> [!WARNING]
 > Don't use certificates from this guide in production! They are real, but publicly available ❗
 
 This guide will help you quickly deploy a clickhouse server with SSL encryption and a grafana monitoring with SSL encryption.
 For grafana configuration, see [this official guide](https://clickhouse.com/blog/visualizing-data-with-grafana)
+
+
 
 ## Navigation
 
@@ -37,6 +39,7 @@ For grafana configuration, see [this official guide](https://clickhouse.com/blog
 * [🛠️ Setup After Creation](#setup-after-creation)
 
 
+
 ## 🔐 Certificate Notes
 
 This guide provides information on both normal SSL certificates and self-signed certificates.
@@ -52,6 +55,7 @@ Change access rights to .key file (must be 644 or stricter):
 ```bash
 chmod 644 <name>.key
 ```
+
 
 
 ## 📝 Env
@@ -279,8 +283,8 @@ DataGrip:
 
 ### Quick start
 
-> **Warning**
-> Don't use this because http traffic is not encrypted and can be intercepted
+> [!CAUTION]
+> Don't use this method because http traffic is not encrypted and can be intercepted
 
 Start:
 ```bash
