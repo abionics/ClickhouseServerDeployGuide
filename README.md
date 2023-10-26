@@ -20,7 +20,7 @@ For grafana configuration, see [this official guide](https://clickhouse.com/blog
     * [Volumes](#volumes)
     * [Ports](#ports)
     * [Files](#files)
-* [🚀 Auto-certificate [✍️ self-signed]](#-auto-certificate--self-signed)
+* [🚀 Auto-certificate [✍️ self-signed]](#-auto-certificate-%EF%B8%8F-self-signed)
     * [Quick start](#quick-start-1)
     * [Volumes](#volumes-1)
     * [Ports](#ports-1)
@@ -31,7 +31,7 @@ For grafana configuration, see [this official guide](https://clickhouse.com/blog
     * [Ports](#ports-2)
     * [Config](#config)
     * [Files](#files-2)
-* [⚠️ Insecure (http)](#-insecure-http)
+* [⚠️ Insecure (http)](#%EF%B8%8F-insecure-http)
     * [Quick start](#quick-start-3)
     * [Volumes](#volumes-3)
     * [Ports](#ports-3)
@@ -281,10 +281,10 @@ DataGrip:
 
 ## ⚠️ Insecure (http)
 
-### Quick start
-
 > [!CAUTION]
 > Don't use this method because http traffic is not encrypted and can be intercepted
+
+### Quick start
 
 Start:
 ```bash
