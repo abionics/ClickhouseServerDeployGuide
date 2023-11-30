@@ -1,4 +1,4 @@
-FROM clickhouse/clickhouse-server:23.4.2.11-alpine
+FROM clickhouse/clickhouse-server:23.11.2.11-alpine
 
 RUN apk add openssl
 RUN mkdir /etc/clickhouse-server/certificate

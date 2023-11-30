@@ -3,7 +3,7 @@ version: "3.1"
 services:
 
   clickhouse:
-    image: clickhouse/clickhouse-server:23.4.2.11-alpine
+    image: clickhouse/clickhouse-server:23.11.2.11-alpine
     restart: on-failure
     environment:
       CLICKHOUSE_DB: ${CLICKHOUSE_DB:-default}
@@ -21,7 +21,7 @@ services:
     stop_grace_period: 60s
 
   chproxy:
-    image: tacyuuhon/clickhouse-chproxy:1.24.0
+    image: tacyuuhon/clickhouse-chproxy:1.25.0
     restart: on-failure
     ports:
       - "9090:9090"
@@ -32,7 +32,7 @@ services:
       - clickhouse
 
   grafana:
-    image: grafana/grafana-enterprise:9.5.3
+    image: grafana/grafana-enterprise:10.2.2
     restart: on-failure
     ports:
       - "3000:3000"
